@@ -1,21 +1,18 @@
-const express = require("express");
-const router = express.Router();
+const mongoose = require('mongoose');
 
-/**
- * GET product list.
- *
- * @return product list | empty.
- */
-router.get("/", async (req, res) => {
-  try {
-    res.json({
-      status: 200,
-      message: "Get data has successfully",
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).send("Server error");
-  }
-});
+const Product = new mongoose.Schema({
+    title: { type: "string", required: true },
+    oldPrice: { type: "number", required: true },
+    price: { type: "number", required: true },
+    discription: { type: "string", required: true },
+    image: { type: "string" },
+    imageTwo: { type: "string" },
+    imageThree: { type: "string" },
+    priceOne: { type: "string" },
+    priceTwo: { type: "string" },
+    priceThree: { type: "string" },
+    sale: { type: "boolean" },
+    timestamp: { type: Date, default: Date.now }
+})
 
-module.exports = router;
+module.exports = mongoose.model('Product', Product)

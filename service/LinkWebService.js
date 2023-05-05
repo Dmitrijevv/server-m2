@@ -1,4 +1,4 @@
-const LinkWeb = require('./LinkWeb.js')
+const LinkWeb = require('./api/LinkWeb.js')
 
 class LinkWebService {
     async create(linkweb) {
