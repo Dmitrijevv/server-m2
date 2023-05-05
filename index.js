@@ -20,7 +20,11 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 
 app.get('/', (req, res) => {
-    res.end('<h1>Welcome</h1>')
+    try {
+        res.end('<h1>Welcome</h1>')
+    } catch (error) {
+        res.end('<h1>Error</h1>')
+    }
 })
 
 async function startApp() {
