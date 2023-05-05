@@ -1,4 +1,4 @@
-const Product = require('./Product.js')
+const Product = require('../api/Product.js')
 
 
 class ProductService {

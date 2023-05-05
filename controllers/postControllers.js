@@ -1,4 +1,4 @@
-const PostService = require('./postService.js')
+const PostService = require('../service/postService')
 
 
 class PostControllers {

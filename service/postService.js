@@ -1,4 +1,4 @@
-const Post = require('./Post.js')
+const Post = require('../api/Post')
 
 
 class PostService {

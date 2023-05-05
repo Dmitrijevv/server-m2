@@ -1,4 +1,4 @@
-const Registration = require('./Users.js');
+const Registration = require('../api/Users.js');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');

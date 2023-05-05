@@ -1,8 +1,8 @@
 const Router = require('express');
-const PostControllers = require('./postControllers.js');
-const ProductControllers = require('./productControllers.js');
-const LinkWebControllers = require('./LinkWebControllers.js');
-const RegistrationControllers = require('./registrationControllers.js');
+const PostControllers = require('../controllers/postControllers');
+const ProductControllers = require('../controllers/productControllers.js');
+const LinkWebControllers = require('../controllers/LinkWebControllers.js');
+const RegistrationControllers = require('../controllers/registrationControllers.js');
 const router = new Router();
 //const fileMiddleware = require('./middleware/file.js')
 const { check } = require('express-validator');

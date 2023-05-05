@@ -1,4 +1,4 @@
-const LinkWebService = require('../LinkWebService.js')
+const LinkWebService = require('../service/LinkWebService.js')
 
 
 class LinkWebControllers {
