@@ -1,10 +1,37 @@
-const express = require("express");
+const express = require('express');
+const mongoose = require('mongoose');
+const router = require('./router.js');
+// const fileUpload from 'express-fileupload'
+const cors = require('cors');
+const path = require('path');
+
+var PORT = process.env.PORT || 5000;
+const bd_url = `mongodb+srv://dmitrijevv:qwerty1234@cluster0.j9kmk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+
+
 const app = express();
-const product = require("./api/product");
 
-app.use(express.json({ extended: false }));
+app.use(express.json({ extend: true }));
+app.use(cors());
+app.use(express.static('static'));
+// app.use(fileUpload({}));
+app.use('/api', router);
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
-app.use("/api/product", product);
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`Server is running in port ${PORT}`));
+app.get('/', (req, res) => {
+    res.end('<h1>Welcome</h1>')
+})
+
+async function startApp() {
+    try {
+        await mongoose.connect(bd_url, { useUnifiedTopology: true, useNewUrlParser: true });
+        app.listen(PORT, () => {
+            console.log('server started on port ' + PORT)
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+startApp()
