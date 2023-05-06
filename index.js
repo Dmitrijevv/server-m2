@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 })
 
 
-const server = http.createServer(app);
+// const server = http.createServer(app);
 
 const url = process.env.MONGODB_URL
 // const url = process.env.MONGODB_URL || 'mongodb+srv://dmitrijevv:qwerty1234@cluster0.1pl8iqe.mongodb.net/'
@@ -35,7 +35,7 @@ async function startApp() {
     mongoose.set('strictQuery', false);
 await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
   console.log("Mongodb connected");
-  server.listen(port, () => {
+  app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
   });
 }).catch((err) => {
