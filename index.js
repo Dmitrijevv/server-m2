@@ -1,12 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
+require('dotenv').config();
 const router = require('./routes/router');
 // const fileUpload from 'express-fileupload'
 const cors = require('cors');
+const http = require('http');
 const path = require('path');
 
-var PORT = process.env.PORT || 5000;
-const bd_url = `mongodb+srv://dmitrijevv:qwerty1234@cluster0.1pl8iqe.mongodb.net/`;
+
+var port = process.env.PORT || 5000;
+
 
 
 const app = express();
@@ -20,22 +23,38 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 
 app.get('/', (req, res) => {
-    try {
         res.end('<h1>Welcome</h1>')
-    } catch (error) {
-        res.end('<h1>Error</h1>')
-    }
 })
 
-async function startApp() {
-    try {
-        await mongoose.connect(bd_url, { useUnifiedTopology: true, useNewUrlParser: true });
-        app.listen(PORT, () => {
-            console.log('server started on port ' + PORT)
-        })
-    } catch (error) {
-        console.log(error);
-    }
-}
 
-startApp()
+const server = http.createServer(app);
+
+const url = process.env.MONGODB_URL
+// const url = process.env.MONGODB_URL || 'mongodb+srv://dmitrijevv:qwerty1234@cluster0.1pl8iqe.mongodb.net/'
+
+mongoose.set('strictQuery', false);
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+  console.log("Mongodb connected");
+  server.listen(port, () => {
+    console.log(`Server is listening on port ${port}`);
+  });
+}).catch((err) => {
+  console.log({ err });
+  process.exit(1);
+});
+
+// async function startApp() {
+//     try {
+//         await mongoose.connect(process.env.MONGODB_URL, 
+//             { useUnifiedTopology: true, useNewUrlParser: true, strictQuery: false });
+//         app.listen(PORT, () => {
+//             console.log('server started on port ' + PORT)
+//         })
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+
+
+
+// startApp()
