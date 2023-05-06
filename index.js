@@ -1,12 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
-const router = require('./routes/router');
-// const fileUpload from 'express-fileupload'
-const cors = require('cors');
 const http = require('http');
+const router = require('./routes/router');
+const cors = require('cors');
 const path = require('path');
-
+// const fileUpload from 'express-fileupload'
 
 var port = process.env.PORT || 5000;
 
@@ -27,7 +26,7 @@ app.get('/', (req, res) => {
 })
 
 
-// const server = http.createServer(app);
+const server = http.createServer(app);
 
 const url = process.env.MONGODB_URL
 // const url = process.env.MONGODB_URL || 'mongodb+srv://dmitrijevv:qwerty1234@cluster0.1pl8iqe.mongodb.net/'
