@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 })
 
 
-const server = http.createServer(app);
+// const server = http.createServer(app);
 
 const url = process.env.MONGODB_URL
 // const url = process.env.MONGODB_URL || 'mongodb+srv://dmitrijevv:qwerty1234@cluster0.1pl8iqe.mongodb.net/'
