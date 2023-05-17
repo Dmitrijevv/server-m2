@@ -1,7 +1,20 @@
-const Registration = require('../api/Users.js');
+// const Registration = require('../api/Users.js');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const User = require('../module/User.js')
+const Role = require('../api/Role.js')
+const {secret} = require('./config.js')
+
+
+const generateAccessToken = (id, roles) => {
+    const payload = {
+        id,
+        roles
+    }
+    return jwt.sign(payload, secret, {expiresIn: "24h"})
+}
+
 
 class RegistrationControllers {
     async create(req, res) {
@@ -15,18 +28,28 @@ class RegistrationControllers {
                 })
             }
 
-            const { email, password, auth } = req.body;
-            const candidate = await Registration.findOne({ email })
+            const {username, email, password } = req.body;
+            const candidate = await User.findOne({ email })
             if (candidate) {
                 return res.status(400).json({ message: "Така пошта зареєстрована" })
 
             }
-            const hashedPassword = await bcrypt.hash(password, 7)
-            const user = new Registration({ email, password: hashedPassword, auth })
+            const hashedPassword = await bcrypt.hashSync(password, 7)
+            const userRole = await Role.findOne({value: "USER"})
+            const user = new User({username, email, password: hashedPassword, roles: [userRole.value]})
             await user.save()
             return res.json({ message: "Успішно зареєструвався" });
         } catch (e) {
-            res.status(500).json(e)
+            console.log(e)
+            res.status(400).json({message: "error"})
+        }
+    }
+    async getUsers(req, res){
+        try {
+            const users = await User.find()
+            res.json(users)
+        } catch (e) {
+            console.log(e)
         }
     }
     async login(req, res) {
@@ -40,25 +63,22 @@ class RegistrationControllers {
                 })
             }
 
-            const { email, password, auth } = req.body;
-            const candidate = await Registration.findOne({ email })
+            const { email, password } = req.body;
+            const user = await User.findOne({ email })
             if (!email) {
                 return res.status(400).json({ message: 'Не знайдено' })
             }
-            const ismatch = bcrypt.compare(password, candidate.password)
+            const ismatch = bcrypt.compare(password, user.password)
             if (!ismatch) {
                 return res.status(400).json({ message: 'Не знайдено' })
             }
-
-            const jwtSecret = 'd63274237hc0890cjjk84c';
-            const token = jwt.sign({ userId: candidate.id },
-                jwtSecret, { expiresIn: '1h' }
-            )
-            return res.json({ token, userId: candidate.id })
+            const token = generateAccessToken(user._id, user.roles)
+            return res.json({token}, user.username)
 
 
         } catch (e) {
-            res.status(500).json(e)
+            console.log(e)
+            res.status(400).json({message: 'Error login'})
         }
     }
 }

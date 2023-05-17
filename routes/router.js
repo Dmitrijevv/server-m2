@@ -5,6 +5,8 @@ const RegistrationControllers = require('../controllers/registrationControllers.
 const router = new Router();
 //const fileMiddleware = require('./middleware/file.js')
 const { check } = require('express-validator');
+const authMiddleware = require("../middleware/authMiddleware.js")
+const roleMiddleware = require("../middleware/roleMiddleware")
 
 router.post('/posts', PostControllers.create)
 router.get('/posts', PostControllers.getAll)
@@ -31,11 +33,15 @@ router.post('/registration', [
         check('email', 'Не правильний email').isEmail(),
         check('password', 'Не коректний пароль').isLength({ min: 4 })
     ],
-    RegistrationControllers.create)
+    RegistrationControllers.create);
+    
+router.get('/users', roleMiddleware(['ADMIN']), RegistrationControllers.getUsers);
+
 router.post('/login', [
     check('email', 'Не правильний email').isEmail(),
     check('password', 'Не коректний пароль').exists()
-], RegistrationControllers.login)
+], RegistrationControllers.login);
+
 router.delete('/login', )
 
 module.exports = router;
