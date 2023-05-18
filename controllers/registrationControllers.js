@@ -73,7 +73,7 @@ class RegistrationControllers {
                 return res.status(400).json({ message: 'Не знайдено' })
             }
             const token = generateAccessToken(user._id, user.roles)
-            return res.json({token}, user.username)
+            return res.json({token})
 
 
         } catch (e) {

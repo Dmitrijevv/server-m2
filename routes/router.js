@@ -42,6 +42,6 @@ router.post('/login', [
     check('password', 'Не коректний пароль').exists()
 ], RegistrationControllers.login);
 
-router.delete('/login', )
+
 
 module.exports = router;

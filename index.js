@@ -44,18 +44,6 @@ await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 });
 }
 
-// async function startApp() {
-//     try {
-//         await mongoose.connect(process.env.MONGODB_URL, 
-//             { useUnifiedTopology: true, useNewUrlParser: true, strictQuery: false });
-//         app.listen(PORT, () => {
-//             console.log('server started on port ' + PORT)
-//         })
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-
 
 
 startApp()
