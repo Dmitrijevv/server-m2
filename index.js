@@ -5,6 +5,7 @@ const http = require('http');
 const router = require('./routes/router');
 const cors = require('cors');
 const path = require('path');
+// const upload = require("./middleware/multer");
 // const fileUpload from 'express-fileupload'
 
 var port = process.env.PORT || 5050;
